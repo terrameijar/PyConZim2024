@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transformers List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Transformers List</h1>
+    <div class="table-container">
+        <!-- Search Form -->
+        <form id="search-form">
+            <input type="text" id="name" placeholder="Search by name">
+            <input type="text" id="affiliation" placeholder="Search by affiliation">
+            <button type="submit">Search</button>
+            <button id="clear-button">Clear</button>
+        </form>
+
+        <!-- Transformers Table -->
+        <table id="transformers-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Affiliation</th>
+                    <th>Alt Mode</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <div id="pagination">
+            <button id="prev-page">Previous</button>
+            <span id="page-info"></span>
+            <button id="next-page">Next</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>

@@ -4,40 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transformers List</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
 </head>
 <body>
-    <h1>Transformers List</h1>
-    <div class="table-container">
-        <!-- Search Form -->
-        <form id="search-form">
-            <input type="text" id="name" placeholder="Search by name">
-            <input type="text" id="affiliation" placeholder="Search by affiliation">
-            <button type="submit">Search</button>
-            <button id="clear-button">Clear</button>
-        </form>
+    <div class="container mt-5">
+        <h1 class="text-center">Transformers Teletraan I</h1>
+        <div class="table-container">
+            <!-- Search Form -->
+            <form id="search-form" class="form-inline mb-3">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="name" class="sr-only">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Search by name">
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="affiliation" class="sr-only">Affiliation</label>
+                    <input type="text" class="form-control" id="affiliation" placeholder="Search by affiliation">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Search</button>
+                <button id="clear-button" type="button" class="btn btn-secondary mb-2 ml-2">Clear</button>
+            </form>
 
-        <!-- Transformers Table -->
-        <table id="transformers-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Affiliation</th>
-                    <th>Alt Mode</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+            <!-- Transformers Table -->
+            <table id="transformers-table" class="table table-striped table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Affiliation</th>
+                        <th>Alt Mode</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
 
-        <!-- Pagination Controls -->
-        <div id="pagination">
-            <button id="prev-page">Previous</button>
-            <span id="page-info"></span>
-            <button id="next-page">Next</button>
+            <!-- Pagination Controls -->
+            <div id="pagination" class="d-flex justify-content-between">
+                <button id="prev-page" class="btn btn-outline-primary">Previous</button>
+                <span id="page-info" class="align-self-center"></span>
+                <button id="next-page" class="btn btn-outline-primary">Next</button>
+            </div>
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
+</html>
 </html>

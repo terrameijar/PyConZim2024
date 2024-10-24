@@ -109,7 +109,7 @@ h1 {
     color: #243824;
 }
 
-.profile-info .quote {
+/* .profile-info .quote {
     font-style: italic;
     font-size: 1.2em;
     color: #2c3e50;
@@ -117,7 +117,35 @@ h1 {
     padding: 10px;
     border-left: 5px solid #243824;
     background-color: #f9f9f9;
+} */
+
+.profile-info .quote {
+    font-style: italic;
+    font-size: 1.5em; /* Increase font size */
+    color: #2c3e50;
+    margin: 20px 0;
+    padding: 20px; /* Increase padding */
+    border-left: 8px solid #243824; /* Increase border width */
+    /* Change background color to a light blue */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    border-radius: 5px; /* Add rounded corners */
+    position: relative;
 }
+
+.profile-info .quote::before {
+    content: "“"; /* Add opening quotation mark */
+    font-size: 1.5em;
+    color: #243824;
+    margin-right: 5px; /* Add space between the quote mark and text */
+}
+
+.profile-info .quote::after {
+    content: "”"; /* Add closing quotation mark */
+    font-size: 1.5em;
+    color: #243824;
+    margin-left: 5px; /* Add space between the quote mark and text */
+}
+
 
 .back-button {
     display: inline-block;

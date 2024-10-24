@@ -1,22 +1,23 @@
-from flask import Flask, jsonify, render_template,request
+from flask import Flask, jsonify, render_template,request,redirect,url_for
 from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
+from flask_migrate import Migrate
+
 from models import db, Transformer
 from config import Config
-from commands import populate_database
+from commands import populate_database, delete_duplicates
+
 
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
+migrate = Migrate(app, db)
 
 with app.app_context():
     db.create_all()
-    
-app.cli.add_command(populate_database)
 
-admin = Admin(app, name='transformers', template_mode='bootstrap4')
-admin.add_view(ModelView(Transformer, db.session))
+app.cli.add_command(populate_database)
+app.cli.add_command(delete_duplicates)
 
 # API Endpoints
 
@@ -33,7 +34,8 @@ def get_transformer(name):
             'transformation_mode': transformer.transformation_mode,
             'image_url': transformer.image_url,
             'description': transformer.description,
-            'quote': transformer.quote
+            'quote': transformer.quote,
+            'id': bot.id
         })
     else:
         return jsonify({'error': 'Transformer not found'}), 404
@@ -54,7 +56,6 @@ def get_transformers():
         query = query.filter(Transformer.affiliation.ilike(f'%{affiliation}%'))
     
     transformers = query.paginate(page=page)
-    
 
     return jsonify({
         'transformers': [
@@ -65,11 +66,35 @@ def get_transformers():
                 'transformation_mode': bot.transformation_mode,
                 'image_url': bot.image_url,
                 'description': bot.description,
-                'quote': bot.quote
+                'quote': bot.quote,
+                'id': bot.id
             } for bot in transformers.items
         ],
         'total_pages': transformers.pages,
         'page': transformers.page
+    })
+
+
+@app.route('/api/transformers/no-image', methods=['GET'])
+def get_transformers_without_images():
+    """Retrieve a list of transformers without images"""
+
+    transformers = Transformer.query.filter(
+        (Transformer.image_url == None) | (Transformer.image_url == '')
+    ).all()
+
+    return jsonify({
+        'transformers': [
+            {
+                'name': bot.name,
+                'affiliation': bot.affiliation,
+                'abilities': bot.abilities,
+                'transformation_mode': bot.transformation_mode,
+                'description': bot.description,
+                'quote': bot.quote,
+                'id': bot.id
+            } for bot in transformers
+        ]
     })
 
 # HTML Views (User Facing Pages)
@@ -80,7 +105,6 @@ def list_all_transformers():
     """
     View Paginated list of Transformers
     """
-    
     return render_template('index.html')
 
 
@@ -90,6 +114,22 @@ def view_transformer(name):
     View details of a Transformer using its name
     """
     return render_template('view.html', name=name)
+
+
+@app.route('/transformers/edit/<int:id>', methods=['GET', 'POST'])
+def edit_transformer(id):
+    transformer = Transformer.query.get_or_404(id)
+    if request.method == 'POST':
+        transformer.name = request.form['name']
+        transformer.affiliation = request.form['affiliation']
+        transformer.abilities = request.form['abilities']
+        transformer.transformation_mode = request.form['transformation_mode']
+        transformer.image_url = request.form['image_url']
+        transformer.description = request.form['description']
+        transformer.quote = request.form['quote']
+        db.session.commit()
+        return redirect(url_for('list_all_transformers'))
+    return render_template('edit.html', transformer=transformer)
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@ db = SQLAlchemy()
 
 class Transformer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(200), nullable=False, unique=True)
     affiliation = db.Column(db.String(300), nullable=False)
     abilities = db.Column(db.String(300))
     transformation_mode = db.Column(db.String(300), nullable=False)

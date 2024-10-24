@@ -14,9 +14,6 @@ RUN pip install -r requirements.txt
 
 COPY . /usr/src/app/
 
-# RUN python populate_db.py
-
 
 # final configuration
 EXPOSE 8000
-# CMD ["flask", "run", "--host", "0.0.0.0", "--port", "8000"]

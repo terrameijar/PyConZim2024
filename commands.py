@@ -26,3 +26,25 @@ def populate_database():
         db.session.commit()
 
     print("Transformers data populated into database")
+
+@click.command(name='delete_duplicates')
+@with_appcontext
+def delete_duplicates():
+    # Step 1: Identify duplicates
+    duplicates = db.session.query(
+        Transformer.name,
+        db.func.count(Transformer.id).label('count')
+    ).group_by(Transformer.name).having(db.func.count(Transformer.id) > 1).all()
+
+    # Step 2: Delete duplicates
+    for name, count in duplicates:
+        transformers = Transformer.query.filter_by(name=name).all()
+        # Keep the first entry and delete the rest
+        for transformer in transformers[1:]:
+            print(f"Deleting {transformer}")
+            db.session.delete(transformer)
+    
+    db.session.commit()
+    print("Duplicates deleted successfully.")
+
+# Add the command to the CLI

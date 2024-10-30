@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello, World!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .full-height {
+            height: 100vh;
+        }
+        .bordered-image {
+            border: 5px solid #343a40;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .caption {
+            color: #6c757d;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body style="background-color: #E7E9EB; margin: 0; padding: 0;">
+    <div class="container d-flex flex-column justify-content-center align-items-center full-height">
+        <h1 class="text-center mb-4">{{ greeting }}</h1>
+        <div class="text-center">
+            <img class="img-fluid bordered-image" src="static/pyconzw.jpg" alt="PyCon Zim"/>
+            <figcaption class="figure-caption caption mt-2">{{caption}}</figcaption>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,3 +1,5 @@
+name: pyconzim24
+
 services:
   web:
     build: .
@@ -8,9 +10,17 @@ services:
       - db
     environment:
       - FLASK_APP=app
-      - FLASK_END=development
+      - FLASK_ENV=development
     volumes:
       - .:/usr/src/app
+    healthcheck:
+      test: curl --fail http://localhost:8000 || exit 1
+      interval: 10s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+    networks:
+      - postgres_network
 
   db:
     image: postgres:13
@@ -22,5 +32,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+    networks:
+      - postgres_network
+
 volumes:
   postgres_data:
+
+networks:
+  postgres_network:
+    external: true

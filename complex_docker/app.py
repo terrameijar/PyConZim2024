@@ -2,7 +2,6 @@ import csv
 from io import StringIO
 
 from flask import Flask, jsonify, render_template, request, redirect, url_for, Response
-from flask_admin import Admin
 from flask_migrate import Migrate
 
 from models import db, Transformer
